@@ -19,6 +19,14 @@ function blobToImage(blob) {
     });
 }
 
+function enableAll(){
+
+}
+
+function disableAll(){
+
+}
+
 async function reloadImage(){
     if(imageRequestIsActive){
         return;
@@ -28,52 +36,41 @@ async function reloadImage(){
 
     let loadingText = document.querySelector("#status");
     let refreshButton = document.querySelector("#refresh_button");
-    let lightOnButton = document.querySelector("#light_on_button");
-    let lightOffButton = document.querySelector("#light_off_button");
+
+    let shutterTimeField = document.querySelector("#shutter_time");
+    let isoField = document.querySelector("#iso");
+    let expoField = document.querySelector("#exposition_correction");
+
     let imagesContainer = document.querySelector("#images_container");
 
+    // Remove all previous images
     while (imagesContainer.lastElementChild) {
         imagesContainer.removeChild(imagesContainer.lastElementChild);
     }
 
     refreshButton.disabled = true;
-    lightOnButton.disabled = true;
-    lightOffButton.disabled = true;
+    shutterTimeField.disabled = true;
+    isoField.disabled = true;
+    expoField.disabled = true;
 
     loadingText.innerHTML = "Loading";
 
-    let camerasCountResponse = await fetch("/cameras_count");
-    if (camerasCountResponse.ok) {
-        let camerasCountJson = await camerasCountResponse.json();
+    // https://learn.javascript.ru/fetch
+    const path = "/image_from_camera?shutter_time="+ shutterTimeField.value + 
+                "&iso=" + isoField.value + 
+                "&exposition_correction=" + expoField.value;
+    let response = await fetch(path);
+    if (response.ok) {
+        let data = await response.blob();
 
-        if(camerasCountJson){
-            for(let i = 0; i < camerasCountJson.count; i++){
-                // https://learn.javascript.ru/fetch
-                const path = "/image_from_camera?camera_index=" + i;
-                let response = await fetch(path);
-                if (response.ok) {
-                    let data = await response.blob();
-
-                    const image = await blobToImage(data);
-                    imagesContainer.appendChild(image);
-                    imagesContainer.appendChild(document.createElement("br"));
-                } else {
-                    loadingText.innerHTML = "Loading failed";
-                    break;
-                }
-            }
-            loadingText.innerHTML = "Loading complete";
-        }else{
-            loadingText.innerHTML = "Loading failed";    
-        }
+        const image = await blobToImage(data);
+        imagesContainer.appendChild(image);
+        imagesContainer.appendChild(document.createElement("br"));
     } else {
-        alert("Ошибка HTTP: " + response.status);
         loadingText.innerHTML = "Loading failed";
     }
 
     refreshButton.disabled = false;
-    lightOnButton.disabled = false;
-    lightOffButton.disabled = false;
 
     imageRequestIsActive = false;
 }

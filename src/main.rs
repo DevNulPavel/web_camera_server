@@ -3,7 +3,6 @@ mod services;
 mod middlewares;
 mod constants;
 mod camera;
-mod gpio;
 
 /*use std::{
     fs::{

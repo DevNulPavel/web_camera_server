@@ -21,8 +21,7 @@ use actix_identity::{
     Identity
 };
 use serde::{
-    Deserialize,
-    Serialize
+    Deserialize
 };
 use crate::{
     middlewares::{
@@ -31,11 +30,7 @@ use crate::{
         }
     },
     camera::{
-        get_camera_image,
-        get_cameras_count
-    },
-    gpio::{
-        set_light_status
+        get_camera_image
     },
     constants
 };
@@ -68,48 +63,19 @@ async fn index_get() -> impl Responder {
         .body(data)
 }
 
-async fn cameras_count_get() -> impl Responder {
-    info!("Cameras count request");
-
-    #[derive(Serialize)]
-    struct Response{
-        count: usize
-    }
-
-    match get_cameras_count(){
-        Ok(count) => {
-            HttpResponse::Ok()
-                .json(Response{
-                    count
-                })
-        },
-        Err(err) => {
-            error!("Camera count error: {:?}", err);
-            HttpResponse::NoContent()
-                .finish()
-        }
-    }
-}
-
 #[derive(Debug, Deserialize)]
 struct ImageRequestParams{
-    camera_index: i8
+    shutter_time: u16,
+    iso: u16,
+    exposition_correction: i16
 }
 
 async fn image_from_camera_get(params: web::Query<ImageRequestParams>) -> impl Responder {
     info!("Image request");
 
-    /*let data = match fs::read("images/test.jpg") {
-        Ok(data) => {
-            data
-        },
-        Err(err) => {
-            error!("Image read failed: {}", err);
-            return HttpResponse::NoContent()
-                .body("No file");
-        }
-    };*/
-    match get_camera_image(params.camera_index){
+    match get_camera_image(params.shutter_time, 
+                           params.iso, 
+                           params.exposition_correction){
         Ok(image) => {
             HttpResponse::Ok()
                 .content_type("image/jpeg")
@@ -117,7 +83,7 @@ async fn image_from_camera_get(params: web::Query<ImageRequestParams>) -> impl R
         },
         Err(err) => {
             error!("Camera image error: {:?}", err);
-            HttpResponse::NoContent()
+            HttpResponse::NotFound()
                 .finish()
         }
     }
@@ -143,26 +109,6 @@ async fn image_get() -> impl Responder {
     HttpResponse::Ok()
         .content_type("text/html; charset=utf-8")
         .body(data)
-}
-
-#[derive(Deserialize)]
-struct LightParams{
-    status: bool
-}
-
-async fn light_post(post_params: web::Json<LightParams>) -> impl Responder {
-    info!("Change light mode request");
-    match set_light_status(post_params.status, 0){
-        Ok(_) => {
-            HttpResponse::Ok()
-                .finish()
-        },
-        Err(err) => {
-            error!("Change light mode request failed: {:?}", err);
-            HttpResponse::NoContent()
-                .finish()
-        } 
-    }
 }
 
 async fn login_get() -> impl Responder {
@@ -238,18 +184,12 @@ pub fn configure_http_service(cfg: &mut ServiceConfig){
         .service(web::resource("/logout")
                     .wrap(CheckLogin::default())
                     .route(web::route().to(logout)))
-        .service(web::resource("/cameras_count")
-                    .wrap(CheckLogin::default())
-                    .route(web::get().to(cameras_count_get)))
         .service(web::resource("/image_from_camera")
                     .wrap(CheckLogin::default())
                     .route(web::get().to(image_from_camera_get)))
         .service(web::resource("/image")
                     .wrap(CheckLogin::default())
                     .route(web::get().to(image_get)))
-        .service(web::resource("/light")
-                    .wrap(CheckLogin::default())
-                    .route(web::post().to(light_post)))
         .service(web::resource("/login")
                     .route(web::get().to(login_get))
                     .route(web::post().to(login_post)));

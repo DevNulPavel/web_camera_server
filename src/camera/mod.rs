@@ -6,13 +6,11 @@ mod camera_raspberry;
 
 pub use self::{
     error::{
-        CameraImageError,
-        CameraCountError
+        CameraImageError
     }
 };
 pub use self::{
     camera_raspberry::{
-        get_camera_image,
-        get_cameras_count
+        get_camera_image
     }
 };

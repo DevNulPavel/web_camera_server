@@ -7,18 +7,15 @@ use std::{
 #[derive(Debug)]
 #[allow(dead_code)]
 pub enum CameraImageError {
+    WhichCallFailed(io::Error),
+    InvalidUtilPath,
     ApplicationNotFound,
     TempFilePathError,
-    CameraStartFailed,
-    CameraCaptureFailed,
+    CameraStartFailed(io::Error),
+    CameraCaptureFailed(io::Error),
+    CameraOutputError,
     TempFileReadError(io::Error),
     CameraFileNotFound(String),
-}
-
-#[derive(Debug)]
-#[allow(dead_code)]
-pub enum CameraCountError {
-    FilesReadError(io::Error)   
 }
 
 // TODO:
