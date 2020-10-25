@@ -1,0 +1,16 @@
+# Content of /etc/systemd/system/web_camera_server.service
+
+[Unit]
+Description=Web camera server
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/devnul/projects/Rust_Examples/web_camera_server/deploy_result
+ExecStart=/home/devnul/projects/Rust_Examples/web_camera_server/deploy_result/web_camera_server
+TimeoutStartSec=0
+Restart=on-failure
+RestartSec=30
+
+[Install]
+WantedBy=default.target

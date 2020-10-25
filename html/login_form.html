@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset=utf-8>
+        <title>Login</title>
+        <link rel="stylesheet" type="text/css" href="static/css/login_page.css">
+        <style type="text/css">
+            /* Local styles */
+        </style>
+        <script src="static/js/login.js"></script>
+    </head>
+    <body>
+        <div class="layout">
+            <header>
+                <h3 class="title">Login page</h3>
+            </header>
+
+            <form action=/login method=POST>
+                <table class="table">
+                    <tr>
+                        <td class="leftcol">Login:</td>
+                        <td class="rightcol"><input name="login" class="input"></td>
+                    </tr>
+                    <tr>
+                        <td class="leftcol">Password:</td>
+                        <td class="rightcol"><input name="password" class="input" type="password"></td>
+                    </tr>
+                    <tr>
+                        <td class="TD" colspan="2"><button type=submit class="loginbutton">Login</button></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset=utf-8>
+        <title>Image page</title>
+        <link rel="stylesheet" type="text/css" href="static/css/image_page.css">
+        <style type="text/css">
+            /* Local styles */
+        </style>
+        <script src="static/js/image.js"></script>
+    </head>
+    <body>
+        <header>
+            <nav>
+                <a href="/">Main page</a>
+            </nav>
+        </header>
+        
+        <br>
+
+        <label>Light</label>
+        <br>
+        <button id="light_on_button" disabled=true onclick="lightOn()">Light On</button>
+        <br>
+        <button id="light_off_button" disabled=true onclick="lightOff()">Light Off</button>
+        <br>
+        <br>
+
+        <label id="status"></label>
+        <br>
+
+        <button id="refresh_button" disabled=true onclick="reloadImageClick()">Reload</button>
+        <br>
+        <br>
+
+        <div id="images_container">
+            
+        </div>
+        
+    </body>
+</html>
