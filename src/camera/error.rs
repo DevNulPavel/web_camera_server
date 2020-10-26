@@ -13,7 +13,7 @@ pub enum CameraImageError {
     TempFilePathError,
     CameraStartFailed(io::Error),
     CameraCaptureFailed(io::Error),
-    CameraOutputError,
+    CameraOutputError(String),
     TempFileReadError(io::Error),
     CameraFileNotFound(String),
 }
