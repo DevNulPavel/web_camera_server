@@ -1,5 +1,10 @@
 # Content of /etc/systemd/system/web_camera_server.service
 
+# sudo systemctl enable web_camera_server
+# sudo systemctl status web_camera_server
+# sudo systemctl start web_camera_server
+# sudo systemctl stop web_camera_server
+
 [Unit]
 Description=Web camera server
 After=network.target
