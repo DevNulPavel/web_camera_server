@@ -21,14 +21,21 @@
         <br>
         <br>
 
+        <button id="day_button" disabled=true onclick="onDaySettings()">Day</button>
+        <br>
+        <button id="middle_button" disabled=true onclick="onMiddleSettings()">Middle</button>
+        <br>
+        <button id="night_button" disabled=true onclick="onNightSettings()">Night</button>
+        <br>
+
         <table>
             <tr>
                 <td>Shutter time (msec):</td>
-                <td><input id="shutter_time" type="number" placeholder="in msec" value="500"></td>
+                <td><input id="shutter_time" type="number" placeholder="in msec" value="1000"></td>
             </tr>
             <tr>
                 <td>ISO:</td>
-                <td><input id="iso" type="number" placeholder="100-800" value="300"></td>
+                <td><input id="iso" type="number" placeholder="100-800" value="500"></td>
             </tr>
             <tr>
                 <td>Expos correction:</td>

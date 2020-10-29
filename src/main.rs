@@ -98,7 +98,7 @@ use crate::{
 #[actix_web::main]
 async fn main() -> std::io::Result<()>{
     // https://rust-lang-nursery.github.io/rust-cookbook/development_tools/debugging/config_log.html
-    std::env::set_var("RUST_LOG", "actix_server=info,actix_web=info,odroid_web_server=trace");
+    std::env::set_var("RUST_LOG", "actix_server=info,actix_web=info,web_camera_server=trace");
     env_logger::init();
 
     info!("Application setup");

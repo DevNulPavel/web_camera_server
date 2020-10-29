@@ -2,6 +2,15 @@
 
 let imageRequestIsActive = false;
 
+let dayButton = null;
+let middleButton = null;
+let nightButton = null;
+let shutterTimeField = null;
+let isoField = null;
+let expoField = null;
+let refreshButton = null;
+
+
 // <img id="image" class="image"></img>
 function blobToImage(blob) {
     return new Promise((resolve) => {
@@ -19,12 +28,44 @@ function blobToImage(blob) {
     });
 }
 
-function enableAll(){
+// TODO: Избавиться от постоянных запросов объектов
 
+function onDaySettings(){
+    shutterTimeField.value = 400;
+    isoField.value = 200;
+    expoField.value = 0;
+}
+
+function onMiddleSettings(){
+    shutterTimeField.value = 1000;
+    isoField.value = 500;
+    expoField.value = 0;
+}
+
+function onNightSettings(){
+    shutterTimeField.value = 1700;
+    isoField.value = 800;
+    expoField.value = 0;
+}
+
+function enableAll(){
+    refreshButton.disabled = false;
+    dayButton.disabled = false;
+    middleButton.disabled = false;
+    nightButton.disabled = false;
+    shutterTimeField.disabled = false;
+    isoField.disabled = false;
+    expoField.disabled = false;
 }
 
 function disableAll(){
-
+    refreshButton.disabled = true;
+    dayButton.disabled = true;
+    middleButton.disabled = true;
+    nightButton.disabled = true;
+    shutterTimeField.disabled = true;
+    isoField.disabled = true;
+    expoField.disabled = true;
 }
 
 async function reloadImage(){
@@ -35,12 +76,6 @@ async function reloadImage(){
     imageRequestIsActive = true;
 
     let loadingText = document.querySelector("#status");
-    let refreshButton = document.querySelector("#refresh_button");
-
-    let shutterTimeField = document.querySelector("#shutter_time");
-    let isoField = document.querySelector("#iso");
-    let expoField = document.querySelector("#exposition_correction");
-
     let imagesContainer = document.querySelector("#images_container");
 
     // Remove all previous images
@@ -48,10 +83,7 @@ async function reloadImage(){
         imagesContainer.removeChild(imagesContainer.lastElementChild);
     }
 
-    refreshButton.disabled = true;
-    shutterTimeField.disabled = true;
-    isoField.disabled = true;
-    expoField.disabled = true;
+    disableAll();
 
     loadingText.innerHTML = "Loading";
 
@@ -70,7 +102,7 @@ async function reloadImage(){
         loadingText.innerHTML = "Loading failed";
     }
 
-    refreshButton.disabled = false;
+    enableAll();
 
     imageRequestIsActive = false;
 }
@@ -112,6 +144,14 @@ async function lightOff(){
 }
 
 function main(){
+    refreshButton = document.querySelector("#refresh_button");
+    dayButton = document.querySelector("#day_button");
+    middleButton = document.querySelector("#middle_button");
+    nightButton = document.querySelector("#night_button");
+    shutterTimeField = document.querySelector("#shutter_time");
+    isoField = document.querySelector("#iso");
+    expoField = document.querySelector("#exposition_correction");
+
     reloadImage();
 }
 
