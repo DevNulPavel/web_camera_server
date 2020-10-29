@@ -6,6 +6,7 @@ After=network.target
 
 [Service]
 Type=simple
+User=pi
 WorkingDirectory=/home/devnul/projects/Rust_Examples/web_camera_server/deploy_result
 ExecStart=/home/devnul/projects/Rust_Examples/web_camera_server/deploy_result/web_camera_server
 TimeoutStartSec=0
