@@ -1,4 +1,8 @@
 # https://github.com/rust-lang/rustfmt/blob/master/Configurations.md
+# https://github.com/rust-lang/rustfmt
+
+# Install nightly: rustup component add rustfmt --toolchain nightly
+# Run nightly: cargo +nightly fmt
 
 array_width = 100
 binop_separator = "Back"
